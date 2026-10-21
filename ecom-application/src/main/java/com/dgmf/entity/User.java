@@ -1,6 +1,9 @@
 package com.dgmf.entity;
 
+import lombok.Data;
+
 // Entity class representing a User
+@Data
 public class User {
     // Unique identifier for the user
     private Long id;

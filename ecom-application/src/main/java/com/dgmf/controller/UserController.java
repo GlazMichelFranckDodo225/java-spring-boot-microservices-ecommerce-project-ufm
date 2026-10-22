@@ -1,33 +1,36 @@
 package com.dgmf.controller;
 
 import com.dgmf.entity.User;
+import com.dgmf.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 // Controller for handling user-related requests
 @RestController
+@RequiredArgsConstructor
 public class UserController {
-    // In-memory list to store users
-    private List<User> userList = new ArrayList<>();
+    // Injecting the UserService to handle business logic
+    private final UserService userService;
 
     // Endpoint to retrieve all users
     @GetMapping("/api/users")
     public List<User> getAllUsers() {
         // Return the list of users
-        return userList;
+        return userService.fetchAllUsers();
     }
 
+    // Endpoint to create a new user
     @PostMapping("/api/users")
-    public List<User> createUser(@RequestBody User user) {
+    public String createUser(@RequestBody User user) {
         // Add the new user to the list
-        userList.add(user);
+        userService.addUser(user);
 
-        // Return the updated list of users
-        return userList;
+        // Return a success message
+        return "User created successfully";
     }
 }

@@ -11,6 +11,8 @@ import java.util.List;
 public class UserService {
     // In-memory list to store users
     private List<User> userList = new ArrayList<>();
+    // Variable to keep track of the next user ID
+    private Long nextId = 1L;
 
     // Method to fetch all users
     public List<User> fetchAllUsers() {
@@ -19,11 +21,10 @@ public class UserService {
     }
 
     // Method to add a new user
-    public List<User> addUser(User user) {
+    public void addUser(User user) {
+        // Assign an ID to the new user
+        user.setId(nextId++);
         // Add the new user to the list
         userList.add(user);
-
-        // Return the updated list of users
-        return userList;
     }
 }

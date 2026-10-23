@@ -3,10 +3,7 @@ package com.dgmf.controller;
 import com.dgmf.entity.User;
 import com.dgmf.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,6 +19,12 @@ public class UserController {
     public List<User> getAllUsers() {
         // Return the list of users
         return userService.fetchAllUsers();
+    }
+
+    @GetMapping("/api/users/{id}")
+    public User getUser(@PathVariable Long id) {
+        // Fetch the user by ID (not implemented in UserService)
+        return userService.fetchUser(id);
     }
 
     // Endpoint to create a new user

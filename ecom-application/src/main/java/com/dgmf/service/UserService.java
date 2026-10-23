@@ -27,4 +27,18 @@ public class UserService {
         // Add the new user to the list
         userList.add(user);
     }
+
+    // Method to fetch a user by ID
+    public User fetchUser(Long id) {
+        // Iterate through the list of users to find the user with
+        // the given ID
+        for (User user : userList) {
+            if (user.getId().equals(id)) {
+                return user;
+            }
+        }
+
+        // Return null if the user is not found
+        return null;
+    }
 }

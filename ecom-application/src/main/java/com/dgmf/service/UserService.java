@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 // Service class for managing users
 @Service
@@ -29,16 +30,10 @@ public class UserService {
     }
 
     // Method to fetch a user by ID
-    public User fetchUser(Long id) {
-        // Iterate through the list of users to find the user with
-        // the given ID
-        for (User user : userList) {
-            if (user.getId().equals(id)) {
-                return user;
-            }
-        }
-
-        // Return null if the user is not found
-        return null;
+    public Optional<User> fetchUser(Long id) {
+        // Return the first user found with the given ID
+        return userList.stream()
+                .filter(user -> user.getId().equals(id))
+                .findFirst();
     }
 }

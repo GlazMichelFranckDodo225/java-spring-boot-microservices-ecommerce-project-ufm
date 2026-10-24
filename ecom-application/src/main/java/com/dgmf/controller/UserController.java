@@ -31,15 +31,9 @@ public class UserController {
     // Endpoint to retrieve User by ID
     @GetMapping("/api/users/{id}")
     public ResponseEntity<User> getUser(@PathVariable Long id) {
-        // Check if returned User is not null
-        User user = userService.fetchUser(id);
-        if (user == null) {
-            return ResponseEntity.notFound().build();
-            // return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        // Returned the not null User
-        return ResponseEntity.ok(user);
+        return userService.fetchUser(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     // Endpoint to create a new user

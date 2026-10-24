@@ -3,6 +3,10 @@ package com.dgmf.controller;
 import com.dgmf.entity.User;
 import com.dgmf.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,24 +20,35 @@ public class UserController {
 
     // Endpoint to retrieve all users
     @GetMapping("/api/users")
-    public List<User> getAllUsers() {
+    public ResponseEntity<List<User>> getAllUsers() {
         // Return the list of users
-        return userService.fetchAllUsers();
+        return new ResponseEntity<>(
+                userService.fetchAllUsers(), HttpStatus.OK
+        );
+        // return ResponseEntity.ok(userService.fetchAllUsers());
     }
 
+    // Endpoint to retrieve User by ID
     @GetMapping("/api/users/{id}")
-    public User getUser(@PathVariable Long id) {
-        // Fetch the user by ID (not implemented in UserService)
-        return userService.fetchUser(id);
+    public ResponseEntity<User> getUser(@PathVariable Long id) {
+        // Check if returned User is not null
+        User user = userService.fetchUser(id);
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+            // return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        // Returned the not null User
+        return ResponseEntity.ok(user);
     }
 
     // Endpoint to create a new user
     @PostMapping("/api/users")
-    public String createUser(@RequestBody User user) {
+    public ResponseEntity<String> createUser(@RequestBody User user) {
         // Add the new user to the list
         userService.addUser(user);
 
         // Return a success message
-        return "User created successfully";
+        return ResponseEntity.ok("User created successfully");
     }
 }
